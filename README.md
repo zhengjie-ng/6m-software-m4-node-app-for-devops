@@ -1,5 +1,7 @@
 # Application for Software Engineering DevOps (Module 4)
 
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/codebyshennan/6m-software-m4-node-app-for-devops/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/codebyshennan/6m-software-m4-node-app-for-devops/tree/main)
+
 ## Brief Introduction
 
 Node application is lightweight and is easy to use as sample application for this DevOps module. Please read on to learn about the basic (Terminal) command to build, test and run a Node application.
