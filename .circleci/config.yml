@@ -1,8 +1,8 @@
 version: 2.1
-
 orbs:
   node: circleci/node@5.0.1
-
+  docker: circleci/docker@2.1.4
+  heroku: circleci/heroku@2.0.0
 jobs:
   build:
     docker:
@@ -12,7 +12,7 @@ jobs:
       - node/install-packages:
           pkg-manager: npm
       - run: |
-          echo "Installing dependencies..."
+          echo Installing dependencies...”
           npm install
   test:
     docker:
@@ -22,8 +22,33 @@ jobs:
       - node/install-packages:
           pkg-manager: npm
       - run: |
-          echo "Running tests..."
+          echo “Running tests...”
           npm run test
+  
+  publish:
+    executor: docker/docker
+    steps:
+      - setup_remote_docker
+      - checkout
+      - docker/check
+      - docker/build:
+          image: wongshennan/test_repository
+      - docker/push:
+          image: wongshennan/test_repository
+  deploy:
+    docker:
+        - image: cimg/node:16.10
+    steps:
+        - setup_remote_docker      
+        - heroku/install
+        - checkout
+        - run:
+            name: Heroku Container Push
+            command: | 
+                heroku container:login
+                heroku stack:set container -a shennan-su-devops
+                heroku container:push web -a shennan-su-devops
+                heroku container:release web -a shennan-su-devops
 
 workflows:
   simple_workflow:
@@ -32,3 +57,9 @@ workflows:
       - test:
           requires:
             - build
+      - publish:
+          requires:
+            - test
+      - deploy:
+          requires:
+            - publish
