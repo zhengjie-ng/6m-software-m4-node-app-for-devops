@@ -29,6 +29,17 @@ jobs:
       - run: |
           echo "Running tests..."
           npm run test
+
+  publish:
+    executor: docker/docker
+    steps:
+      - setup_remote_docker
+      - checkout
+      - docker/check
+      - docker/build:
+          image: nzj002/node-app-test-repository
+      - docker/push:
+          image: nzj002/node-app-test-repository
 # Define the workflow for job execution order
 workflows:
   simple_workflow:
@@ -37,3 +48,6 @@ workflows:
       - test: # Run test job after build
           requires:
             - build # test depends on build
+      - publish:
+          requires:
+            - test
