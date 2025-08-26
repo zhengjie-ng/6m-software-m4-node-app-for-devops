@@ -35,7 +35,9 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - docker/check
+      - docker/check:
+          docker-username: DOCKERHUB_LOGIN
+          docker-password: DOCKERHUB_PASSWORD
       - docker/build:
           image: nzj002/node-app-test-repository
       - docker/push:
