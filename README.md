@@ -1,6 +1,6 @@
 # Application for Software Engineering DevOps (Module 4)
 
-[![CircleCI](https://dl.circleci.com/status-badge/img/gh/codebyshennan/6m-software-m4-node-app-for-devops/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/codebyshennan/6m-software-m4-node-app-for-devops/tree/main)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/zhengjie-ng/6m-software-m4-node-app-for-devops/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/zhengjie-ng/6m-software-m4-node-app-for-devops/tree/main)
 
 ## Brief Introduction
 
@@ -17,6 +17,7 @@ The `npm install` is the first command you will use to install all dependencies 
 The `npm run test` is the command to run the test script specified in the `package.json` file. This command in turns run the `jest` command.
 
 Sample Snippet from package.json:
+
 ```json
   "scripts": {
     "start": "node index.js",
@@ -31,4 +32,3 @@ The `npm run start` command will start the application. By default, it will use 
 ```sh
 Listening to port <port number>
 ```
-
