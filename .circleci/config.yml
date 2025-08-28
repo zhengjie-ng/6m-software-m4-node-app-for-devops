@@ -106,15 +106,40 @@ jobs:
   #           heroku container:release web -a ngzhengjie-su-devops
 # Define the workflow for job execution order
 workflows:
-  simple_workflow:
+  simple_workflow_main:
     jobs:
-      - build # Run build job first
+      - build:
+          filters:
+            branches:
+              only: main
       - test: # Run test job after build
           requires:
-            - build # test depends on build
+            - build
+          filters:
+            branches:
+              only: main
+
+  simple_workflow_release::
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: release
+      - test: # Run test job after build
+          requires:
+            - build
+          filters:
+            branches:
+              only: release
       - publish:
           requires:
             - test
+          filters:
+            branches:
+              only: release
       - deploy:
           requires:
             - publish
+          filters:
+            branches:
+              only: release
