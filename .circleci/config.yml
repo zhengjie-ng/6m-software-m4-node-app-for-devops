@@ -52,10 +52,13 @@ jobs:
       # Ensure that DOCKER_LOGIN and DOCKER_PASSWORD in CircleCI Project Settings
       # Without this, we have manually run `docker login`
       - docker/check:
+          # Use Docker orb to build and push images
           docker-username: DOCKERHUB_LOGIN
           docker-password: DOCKERHUB_PASSWORD
       - docker/build:
           image: nzj002/node-app-test-repository
+          # tag with current git revision (commit hash) and latest tag
+          tag: << pipeline.git.revision >>, latest
       - docker/push:
           image: nzj002/node-app-test-repository
 # Define the workflow for job execution order
