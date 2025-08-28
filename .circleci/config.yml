@@ -58,9 +58,10 @@ jobs:
       - docker/build:
           image: nzj002/node-app-test-repository
           # tag with current git revision (commit hash) and latest tag
-          tag: << pipeline.git.revision >>, latest
+          tag: << pipeline.git.revision >>,latest
       - docker/push:
           image: nzj002/node-app-test-repository
+          tag: << pipeline.git.revision >>,latest
 # Define the workflow for job execution order
 workflows:
   simple_workflow:
