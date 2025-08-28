@@ -56,8 +56,8 @@ jobs:
       # Without this, we have manually run `docker login`
       - docker/check:
           # Use Docker orb to build and push images
-          docker-username: DOCKERHUB_LOGIN
-          docker-password: DOCKERHUB_PASSWORD
+          # docker-username: DOCKERHUB_LOGIN
+          # docker-password: DOCKERHUB_PASSWORD
       - docker/build:
           image: nzj002/node-app-test-repository
           # tag with current git revision (commit hash) and latest tag
