@@ -3,6 +3,7 @@ version: 2.1
 orbs:
   node: circleci/node@5.0.1
   docker: circleci/docker@2.1.4
+  heroku: circleci/heroku@2.0.0
 
 # commands - reusable sets of steps
 commands:
@@ -64,6 +65,20 @@ jobs:
       - docker/push:
           image: nzj002/node-app-test-repository
           tag: << pipeline.git.revision >>,latest
+        deploy:
+  docker:
+    - image: cimg/node:16.10
+  steps:
+    - setup_remote_docker
+    - heroku/install
+    - checkout
+    - run:
+        name: Heroku Container Push
+        command: |
+          heroku container:login
+          heroku stack:set container -a ngzhengjie-su-devops
+          heroku container:push web -a ngzhengjie-su-devops
+          heroku container:release web -a ngzhengjie-su-devops
 # Define the workflow for job execution order
 workflows:
   simple_workflow:
@@ -75,3 +90,6 @@ workflows:
       - publish:
           requires:
             - test
+      - deploy:
+          requires:
+            - publish
