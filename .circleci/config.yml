@@ -41,6 +41,8 @@ jobs:
       #     npm run test
 
   publish:
+    # CircleCI provides a special executor that allows Docker-in-Docker
+    # so that you run docker build, push, etc
     executor: docker/docker
     steps:
       - setup_remote_docker
