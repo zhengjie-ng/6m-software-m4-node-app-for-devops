@@ -45,6 +45,12 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
+      # docker/check does 3 things
+      # 1. Verifies Docker is working
+      # 2. Authenticates with Docker Hub using your credentials
+      # 3. Sets up Docker client for operations
+      # Ensure that DOCKER_LOGIN and DOCKER_PASSWORD in CircleCI Project Settings
+      # Without this, we have manually run `docker login`
       - docker/check:
           docker-username: DOCKERHUB_LOGIN
           docker-password: DOCKERHUB_PASSWORD
