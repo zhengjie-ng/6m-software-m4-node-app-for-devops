@@ -72,13 +72,36 @@ jobs:
       - setup_remote_docker
       - heroku/install
       - checkout
+      - docker/check
       - run:
-          name: Heroku Container Push
+          name: Deploy to Heroku
           command: |
+            echo "Deploying pre-built image to Heroku..."
             heroku container:login
-            heroku stack:set container -a ngzhengjie-su-devops
-            heroku container:push web -a ngzhengjie-su-devops
-            heroku container:release web -a ngzhengjie-su-devops
+            # Use Heroku container stack
+            heroku stack:set container --app ngzhengjie-su-devops
+            # Pull image that was built in publish job
+            docker pull nzj002/node-app-test-repository:<< pipeline.git.revision >>
+            # Tag it for Heroku
+            docker tag nzj002/node-app-test-repository:<< pipeline.git.revision >> registry.heroku.com/ngzhengjie-su-devops/web
+            # Push to Heroku Container Registry
+            docker push registry.heroku.com/ngzhengjie-su-devops/web
+            # Release the pushed Docker image
+            heroku container:release web --app ngzhengjie-su-devops
+  # deploy:
+  #   docker:
+  #     - image: cimg/node:16.10
+  #   steps:
+  #     - setup_remote_docker
+  #     - heroku/install
+  #     - checkout
+  #     - run:
+  #         name: Heroku Container Push
+  #         command: |
+  #           heroku container:login
+  #           heroku stack:set container -a ngzhengjie-su-devops
+  #           heroku container:push web -a ngzhengjie-su-devops
+  #           heroku container:release web -a ngzhengjie-su-devops
 # Define the workflow for job execution order
 workflows:
   simple_workflow:
